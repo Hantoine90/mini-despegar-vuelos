@@ -291,6 +291,7 @@
   margin-bottom: 6px;
   font-size: 15px;
 }
+
 /* ===== LAYOUT GENERAL ===== */
 body {
   margin: 0;
@@ -522,5 +523,306 @@ body {
   .checkout-sidebar {
     position: static;
     width: 100%;
+  }
+}
+
+/* ===== TICKET / E-TICKET ===== */
+
+.ticket-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e3e6f0;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* Header con gradiente tipo aerolínea */
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 14px 18px 16px;
+  background: linear-gradient(135deg, #6b2bff, #b428ff);
+  color: #ffffff;
+}
+
+.ticket-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.ticket-subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.ticket-code-block {
+  text-align: right;
+}
+
+.ticket-code-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.ticket-code {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Ruta principal */
+.ticket-route {
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid #edf0f7;
+}
+
+.ticket-route-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ticket-route-city {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-route-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #6b7280;
+}
+
+.ticket-route-value {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.ticket-route-arrow {
+  font-size: 24px;
+  color: #9ca3af;
+}
+
+.ticket-route-info {
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Línea de "perforación" */
+.ticket-perforation {
+  position: relative;
+  border-top: 1px dashed #e5e7eb;
+  margin: 10px 0;
+}
+
+.ticket-perforation::before,
+.ticket-perforation::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f3f4f7;
+}
+
+.ticket-perforation::before {
+  left: -6px;
+}
+
+.ticket-perforation::after {
+  right: -6px;
+}
+
+/* Tramos */
+.ticket-legs {
+  padding: 0 18px 4px;
+}
+
+.ticket-leg {
+  padding: 8px 0 10px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.ticket-leg:last-child {
+  border-bottom: none;
+}
+
+.ticket-leg h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+
+.ticket-leg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 18px;
+  font-size: 13px;
+}
+
+.ticket-leg-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: #6b7280;
+}
+
+.ticket-leg-value {
+  margin: 0;
+  font-size: 14px;
+}
+
+.ticket-leg-extras {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+/* Pasajeros */
+.ticket-passengers {
+  padding: 0 18px 12px;
+}
+
+.ticket-passengers h3 {
+  margin: 2px 0 6px;
+  font-size: 15px;
+}
+
+.ticket-passenger-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr;
+  gap: 6px 14px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.ticket-passenger-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: #6b7280;
+}
+
+.ticket-passenger-name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.ticket-passenger-detail {
+  margin: 0;
+}
+
+/* Footer info */
+.ticket-footer-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 18px 12px;
+  font-size: 13px;
+}
+
+.ticket-footer-block {
+  flex: 1;
+  min-width: 220px;
+}
+
+.ticket-footer-block h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+
+.ticket-total {
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+/* Código de barras decorativo */
+.ticket-barcode-wrapper {
+  padding: 8px 18px 12px;
+  border-top: 1px solid #edf0f7;
+  text-align: center;
+}
+
+.ticket-barcode {
+  height: 40px;
+  margin: 0 auto 6px;
+  max-width: 260px;
+  background-image: repeating-linear-gradient(
+    to right,
+    #111827 0,
+    #111827 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.ticket-barcode-text {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* ===== PRINT / PDF ===== */
+
+.no-print {
+  /* elementos que no quiero en el PDF */
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .app-main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .ticket-card {
+    box-shadow: none;
+    border: 1px solid #000000;
+    border-radius: 0;
+  }
+
+  .checkout-layout {
+    display: block;
+  }
+}
+
+/* Responsive para el ticket */
+@media (max-width: 800px) {
+  .ticket-leg-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-passenger-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .ticket-code-block {
+    text-align: left;
   }
 }

@@ -50,12 +50,12 @@ function ConfirmationPage() {
   };
 
   const handlePrint = () => {
-    window.print(); // el usuario podrá “Guardar como PDF”
+    window.print(); // El usuario puede elegir "Guardar como PDF"
   };
 
   return (
     <main className="app-main">
-      <header className="app-header">
+      <header className="app-header no-print">
         <h1>Confirmación de compra</h1>
         <p>
           Este es el comprobante de tu reserva. Puedes imprimirlo o guardarlo
@@ -64,202 +64,225 @@ function ConfirmationPage() {
       </header>
 
       <div className="checkout-layout">
-        {/* COLUMNA PRINCIPAL: DETALLE DE LA RESERVA */}
+        {/* COLUMNA PRINCIPAL: E-TICKET */}
         <div className="checkout-main">
-          {/* Bloque tipo e-ticket */}
-          <section className="purchase-summary">
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <section className="ticket-card">
+            {/* Header del ticket */}
+            <div className="ticket-header">
               <div>
-                <h2 style={{ marginBottom: 4 }}>Reserva confirmada</h2>
-                <p style={{ margin: 0 }}>
-                  Fecha de compra: <strong>{formattedPurchaseDate}</strong>
+                <h2 className="ticket-title">E-ticket de vuelo</h2>
+                <p className="ticket-subtitle">
+                  Reserva confirmada · {formattedPurchaseDate}
                 </p>
               </div>
-              <div style={{ textAlign: "right" }}>
-                <p style={{ margin: 0, fontSize: 12, opacity: 0.7 }}>
-                  Código de reserva
-                </p>
-                <p
-                  style={{
-                    margin: 0,
-                    fontSize: 24,
-                    letterSpacing: 2,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {bookingCode}
-                </p>
+              <div className="ticket-code-block">
+                <span className="ticket-code-label">Código de reserva</span>
+                <span className="ticket-code">{bookingCode}</span>
               </div>
             </div>
 
-            <hr />
-
-            {/* Datos del titular */}
-            {contact && (
-              <>
-                <h3>Datos del titular de la reserva</h3>
-                <p>
-                  <strong>Nombre:</strong> {contact.name}
-                </p>
-                <p>
-                  <strong>Correo:</strong> {contact.email}
-                </p>
-                <p>
-                  <strong>Teléfono:</strong> {contact.phone}
-                </p>
-                <p>
-                  <strong>Método de pago:</strong>{" "}
-                  {contact.paymentMethod === "tarjeta"
-                    ? "Tarjeta de crédito / débito"
-                    : contact.paymentMethod === "yape"
-                    ? "Yape / Plin"
-                    : "Transferencia bancaria"}
-                </p>
-              </>
-            )}
-
-            <hr />
-
-            {/* Resumen del viaje */}
-            <h3>Detalle del viaje</h3>
-            <p>
-              <strong>Origen / destino:</strong> {outboundFlight.origin} →{" "}
-              {isRoundTrip ? returnFlight.destination : outboundFlight.destination}
-            </p>
-            <p>
-              <strong>Tipo de viaje:</strong>{" "}
-              {isRoundTrip ? "Ida y vuelta" : "Solo ida"}
-            </p>
-            <p>
-              <strong>Pasajeros:</strong> {searchDetails.numPassengers} ·{" "}
-              <strong>Clase:</strong> {searchDetails.travelClass}
-            </p>
-
-            <div
-              style={{
-                border: "1px dashed #ccc",
-                borderRadius: 8,
-                padding: 12,
-                marginTop: 12,
-              }}
-            >
-              {/* Vuelo de ida */}
-              <h4 style={{ marginTop: 0 }}>Tramo 1 · Vuelo de ida</h4>
-              <p style={{ marginBottom: 4 }}>
-                <strong>Ruta:</strong> {outboundFlight.origin} →{" "}
-                {outboundFlight.destination}
-              </p>
-              <p style={{ marginBottom: 4 }}>
-                <strong>Fecha de salida:</strong>{" "}
-                {searchDetails.departDate || "-"}
-              </p>
-              <p style={{ marginBottom: 4 }}>
-                <strong>Aerolínea:</strong> {outboundFlight.airline}
-              </p>
-              <p style={{ marginBottom: 4 }}>
-                <strong>Precio base:</strong> S/. {outboundFlight.price}
-              </p>
-              {extras?.outbound && (
-                <p style={{ marginBottom: 0 }}>
-                  <strong>Extras:</strong>{" "}
-                  {baggageLabels[extras.outbound.baggage] ||
-                    extras.outbound.baggage}
-                  {", "}
-                  {fareLabels[extras.outbound.fare] || extras.outbound.fare}
-                </p>
-              )}
+            {/* Datos principales de ruta */}
+            <div className="ticket-route">
+              <div className="ticket-route-main">
+                <div className="ticket-route-city">
+                  <span className="ticket-route-label">Origen</span>
+                  <span className="ticket-route-value">
+                    {outboundFlight.origin}
+                  </span>
+                </div>
+                <div className="ticket-route-arrow">⇄</div>
+                <div className="ticket-route-city">
+                  <span className="ticket-route-label">Destino</span>
+                  <span className="ticket-route-value">
+                    {isRoundTrip ? returnFlight.destination : outboundFlight.destination}
+                  </span>
+                </div>
+              </div>
+              <div className="ticket-route-info">
+                <span>
+                  {isRoundTrip ? "Ida y vuelta" : "Solo ida"} ·{" "}
+                  {searchDetails.travelClass}
+                </span>
+                <span>
+                  Pasajeros: {searchDetails.numPassengers}
+                </span>
+              </div>
             </div>
 
-            {/* Vuelo de vuelta */}
-            {isRoundTrip && returnFlight && (
-              <div
-                style={{
-                  border: "1px dashed #ccc",
-                  borderRadius: 8,
-                  padding: 12,
-                  marginTop: 12,
-                }}
-              >
-                <h4 style={{ marginTop: 0 }}>Tramo 2 · Vuelo de vuelta</h4>
-                <p style={{ marginBottom: 4 }}>
-                  <strong>Ruta:</strong> {returnFlight.origin} →{" "}
-                  {returnFlight.destination}
-                </p>
-                <p style={{ marginBottom: 4 }}>
-                  <strong>Fecha de regreso:</strong>{" "}
-                  {searchDetails.returnDate || "-"}
-                </p>
-                <p style={{ marginBottom: 4 }}>
-                  <strong>Aerolínea:</strong> {returnFlight.airline}
-                </p>
-                <p style={{ marginBottom: 4 }}>
-                  <strong>Precio base:</strong> S/. {returnFlight.price}
-                </p>
-                {extras?.return && (
-                  <p style={{ marginBottom: 0 }}>
+            <div className="ticket-perforation" />
+
+            {/* Tramos */}
+            <div className="ticket-legs">
+              {/* IDA */}
+              <div className="ticket-leg">
+                <h3>Tramo 1 · Vuelo de ida</h3>
+                <div className="ticket-leg-grid">
+                  <div>
+                    <span className="ticket-leg-label">Ruta</span>
+                    <p className="ticket-leg-value">
+                      {outboundFlight.origin} → {outboundFlight.destination}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="ticket-leg-label">Fecha salida</span>
+                    <p className="ticket-leg-value">
+                      {searchDetails.departDate || "-"}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="ticket-leg-label">Aerolínea</span>
+                    <p className="ticket-leg-value">
+                      {outboundFlight.airline}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="ticket-leg-label">Precio base</span>
+                    <p className="ticket-leg-value">
+                      S/. {outboundFlight.price}
+                    </p>
+                  </div>
+                </div>
+                {extras?.outbound && (
+                  <p className="ticket-leg-extras">
                     <strong>Extras:</strong>{" "}
-                    {baggageLabels[extras.return.baggage] ||
-                      extras.return.baggage}
-                    {", "}
-                    {fareLabels[extras.return.fare] ||
-                      extras.return.fare}
+                    {baggageLabels[extras.outbound.baggage] ||
+                      extras.outbound.baggage}
+                    {" · "}
+                    {fareLabels[extras.outbound.fare] || extras.outbound.fare}
                   </p>
                 )}
               </div>
-            )}
 
-            <hr />
+              {/* VUELTA */}
+              {isRoundTrip && returnFlight && (
+                <div className="ticket-leg">
+                  <h3>Tramo 2 · Vuelo de vuelta</h3>
+                  <div className="ticket-leg-grid">
+                    <div>
+                      <span className="ticket-leg-label">Ruta</span>
+                      <p className="ticket-leg-value">
+                        {returnFlight.origin} → {returnFlight.destination}
+                      </p>
+                    </div>
+                    <div>
+                      <span className="ticket-leg-label">Fecha regreso</span>
+                      <p className="ticket-leg-value">
+                        {searchDetails.returnDate || "-"}
+                      </p>
+                    </div>
+                    <div>
+                      <span className="ticket-leg-label">Aerolínea</span>
+                      <p className="ticket-leg-value">
+                        {returnFlight.airline}
+                      </p>
+                    </div>
+                    <div>
+                      <span className="ticket-leg-label">Precio base</span>
+                      <p className="ticket-leg-value">
+                        S/. {returnFlight.price}
+                      </p>
+                    </div>
+                  </div>
+                  {extras?.return && (
+                    <p className="ticket-leg-extras">
+                      <strong>Extras:</strong>{" "}
+                      {baggageLabels[extras.return.baggage] ||
+                        extras.return.baggage}
+                      {" · "}
+                      {fareLabels[extras.return.fare] || extras.return.fare}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="ticket-perforation" />
 
             {/* Pasajeros */}
-            <h3>Pasajeros</h3>
-            {passengers.map((p, idx) => (
-              <div
-                key={p.id}
-                style={{
-                  padding: 8,
-                  borderRadius: 6,
-                  border: "1px solid #eee",
-                  marginBottom: 6,
-                }}
-              >
-                <p style={{ marginBottom: 2 }}>
-                  <strong>Pasajero {idx + 1}:</strong> {p.fullName || "(sin nombre)"}
+            <section className="ticket-passengers">
+              <h3>Pasajeros</h3>
+              {passengers.map((p, idx) => (
+                <div key={p.id} className="ticket-passenger-row">
+                  <div>
+                    <span className="ticket-passenger-label">
+                      Pasajero {idx + 1}
+                    </span>
+                    <p className="ticket-passenger-name">
+                      {p.fullName || "(sin nombre)"}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="ticket-passenger-label">Documento</span>
+                    <p className="ticket-passenger-detail">
+                      {p.docType} · {p.document || "-"}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="ticket-passenger-label">Asiento</span>
+                    <p className="ticket-passenger-detail">
+                      {p.seat || "-"}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </section>
+
+            <div className="ticket-perforation" />
+
+            {/* Datos titular + pago */}
+            <section className="ticket-footer-info">
+              {contact && (
+                <div className="ticket-footer-block">
+                  <h3>Titular de la reserva</h3>
+                  <p>
+                    <strong>Nombre:</strong> {contact.name}
+                  </p>
+                  <p>
+                    <strong>Correo:</strong> {contact.email}
+                  </p>
+                  <p>
+                    <strong>Teléfono:</strong> {contact.phone}
+                  </p>
+                  <p>
+                    <strong>Método de pago:</strong>{" "}
+                    {contact.paymentMethod === "tarjeta"
+                      ? "Tarjeta de crédito / débito"
+                      : contact.paymentMethod === "yape"
+                      ? "Yape / Plin"
+                      : "Transferencia bancaria"}
+                  </p>
+                </div>
+              )}
+
+              <div className="ticket-footer-block">
+                <h3>Resumen de pago</h3>
+                <p>
+                  Subtotal vuelos: <strong>S/. {totals.baseTotal}</strong>
                 </p>
-                <p style={{ marginBottom: 2 }}>
-                  <strong>Documento:</strong> {p.docType} · {p.document || "-"}
+                <p>
+                  Extras (maletas y tarifa):{" "}
+                  <strong>S/. {totals.extrasTotal}</strong>
                 </p>
-                <p style={{ marginBottom: 0 }}>
-                  <strong>Asiento asignado:</strong> {p.seat || "-"}
+                <p className="ticket-total">
+                  Total pagado:{" "}
+                  <strong>S/. {totals.totalPrice}</strong>
                 </p>
               </div>
-            ))}
+            </section>
 
-            <hr />
-
-            {/* Resumen de pago */}
-            <h3>Resumen de pago</h3>
-            <p>
-              Subtotal vuelos: <strong>S/. {totals.baseTotal}</strong>
-            </p>
-            <p>
-              Extras (maletas y tarifa):{" "}
-              <strong>S/. {totals.extrasTotal}</strong>
-            </p>
-            <p style={{ fontSize: 20, marginTop: 4 }}>
-              Total pagado:{" "}
-              <strong>S/. {totals.totalPrice}</strong>
-            </p>
-
-            <p style={{ marginTop: 12, fontSize: 12, opacity: 0.7 }}>
-              * Este documento es una simulación académica inspirada en
-              comprobantes de viaje reales. No constituye un billete de avión
-              válido.
-            </p>
+            {/* "Código de barras" decorativo */}
+            <div className="ticket-barcode-wrapper">
+              <div className="ticket-barcode" />
+              <p className="ticket-barcode-text">
+                Este documento es una simulación con fines académicos y no
+                constituye un billete de avión válido.
+              </p>
+            </div>
           </section>
         </div>
 
-        {/* COLUMNA DERECHA: PANEL RÁPIDO */}
-        <aside className="checkout-sidebar">
+        {/* COLUMNA DERECHA: RESUMEN RÁPIDO + BOTONES (no se imprime) */}
+        <aside className="checkout-sidebar no-print">
           <h3>Resumen rápido</h3>
           <p>
             <strong>Código de reserva:</strong> {bookingCode}
